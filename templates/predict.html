@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+
+{% block title %}Predict{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-5">Skin Cancer Analysis</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">
+                        <i class="fas fa-camera me-2"></i>Upload Your Image
+                    </h3>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="imageInput" class="form-label">Select an image of your skin lesion</label>
+                            <input type="file" class="form-control" id="imageInput" accept="image/*" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>Analyze Image
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">
+                        <i class="fas fa-info-circle me-2"></i>Guidelines for Image Upload
+                    </h3>
+                    <ul>
+                        <li>Ensure good lighting when taking the photo</li>
+                        <li>Keep the camera steady and focused</li>
+                        <li>Include the entire lesion in the frame</li>
+                        <li>Take the photo from a consistent distance</li>
+                        <li>Use a neutral background if possible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title mb-4">
+                        <i class="fas fa-chart-bar me-2"></i>Analysis Results
+                    </h3>
+                    <div id="previewContainer" class="text-center mb-4" style="display: none;">
+                        <img id="imagePreview" class="img-fluid rounded" style="max-height: 300px;">
+                    </div>
+                    <div id="resultContainer" style="display: none;">
+                        <div class="alert" id="resultAlert">
+                            <h4 class="alert-heading">Analysis Result</h4>
+                            <p id="resultText"></p>
+                        </div>
+                        <div class="progress mb-3">
+                            <div id="confidenceBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <p class="text-muted" id="confidenceText"></p>
+                    </div>
+                    <div id="loadingContainer" style="display: none;">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Analyzing image...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-4">
+                <h4><i class="fas fa-exclamation-triangle me-2"></i>Important Disclaimer</h4>
+                <p>This tool is for informational purposes only and should not be used as a substitute for professional medical advice. Always consult a healthcare provider for proper diagnosis and treatment.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const fileInput = document.getElementById('imageInput');
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('Please select an image first');
+        return;
+    }
+
+    // Show preview
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        previewContainer.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+
+    // Show loading
+    document.getElementById('loadingContainer').style.display = 'block';
+    document.getElementById('resultContainer').style.display = 'none';
+
+    // Create form data
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        // Hide loading
+        document.getElementById('loadingContainer').style.display = 'none';
+        
+        // Show results
+        const resultContainer = document.getElementById('resultContainer');
+        const resultAlert = document.getElementById('resultAlert');
+        const resultText = document.getElementById('resultText');
+        const confidenceBar = document.getElementById('confidenceBar');
+        const confidenceText = document.getElementById('confidenceText');
+
+        // Set result class based on prediction
+        resultAlert.className = 'alert ' + (
+            result.prediction === 'Malignant' ? 'alert-danger' :
+            result.prediction === 'Pre-cancerous' ? 'alert-warning' :
+            'alert-success'
+        );
+
+        resultText.textContent = `Prediction: ${result.prediction}`;
+        confidenceBar.style.width = result.confidence;
+        confidenceText.textContent = `Confidence: ${result.confidence}`;
+        resultContainer.style.display = 'block';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while analyzing the image. Please try again.');
+        document.getElementById('loadingContainer').style.display = 'none';
+    }
+});
+</script>
+{% endblock %} 

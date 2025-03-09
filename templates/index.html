@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 mb-4">Understanding Skin Cancer</h1>
+        <p class="lead mb-4">Early detection saves lives. Learn about skin cancer types, prevention, and get instant analysis of skin lesions.</p>
+        <a href="/predict" class="btn btn-primary btn-lg">Analyze Your Skin</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title"><i class="fas fa-info-circle text-primary me-2"></i>What is Skin Cancer?</h3>
+                    <p class="card-text">Skin cancer is the abnormal growth of skin cells, most often developing on skin exposed to the sun. It's the most common type of cancer worldwide, but when caught early, it's also one of the most treatable.</p>
+                    <p class="card-text">The three main types of skin cancer are:</p>
+                    <ul>
+                        <li>Basal cell carcinoma (BCC)</li>
+                        <li>Squamous cell carcinoma (SCC)</li>
+                        <li>Melanoma</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Risk Factors</h3>
+                    <p class="card-text">Understanding your risk factors can help you take preventive measures:</p>
+                    <ul>
+                        <li>Fair skin that burns easily</li>
+                        <li>Family history of skin cancer</li>
+                        <li>Excessive sun exposure</li>
+                        <li>History of sunburns</li>
+                        <li>Moles or unusual growths</li>
+                        <li>Weakened immune system</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                    <h4>Early Detection</h4>
+                    <p>Regular skin self-examinations can help identify potential skin cancer early.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                    <h4>Prevention</h4>
+                    <p>Learn how to protect your skin from harmful UV radiation.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <i class="fas fa-robot fa-3x text-info mb-3"></i>
+                    <h4>AI Analysis</h4>
+                    <p>Use our AI-powered tool to analyze skin lesions instantly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
