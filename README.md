@@ -21,14 +21,13 @@ This web application provides information about skin cancer types, prevention me
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd skin-cancer-detection
+git clone https://github.com/vmalani27/oncovision
 ```
 
 2. Create a virtual environment (recommended):
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 3. Install dependencies:
@@ -36,7 +35,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Ensure you have the trained model file (`mobilenetv2_skin_cancer.h5`) in the root directory.
+4. Ensure you have the trained model file (`mobilenetv2_skin_cancer.h5`) in the root directory. (not necessary now)
 
 ## Running the Application
 
